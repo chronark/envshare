@@ -66,7 +66,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
         </div>
       ) : (
         <form
-          className="max-w-3xl mx-auto"
+          className="max-w-3xl mx-auto "
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
@@ -74,7 +74,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
         >
           <Title>Decrypt a document</Title>
 
-          <div className="px-3 py-2 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
+          <div className="px-3 py-2 mt-8 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
             <label htmlFor="id" className="block text-xs font-medium text-zinc-100">
               ID
             </label>
@@ -101,7 +101,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
           <div className="mt-8">
             <ul className="space-y-2 text-xs text-zinc-500">
               <li>
-                <p>Fill in the id and key you have received to decrypt the document</p>
+                <p>Fill in the id you received</p>
               </li>
             </ul>
           </div>
