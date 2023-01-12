@@ -8,13 +8,11 @@ import { Title } from "@components/title";
 type Props = {
     compositeKey?: string
 }
-export const Client: React.FC<Props> = ({ compositeKey }) => {
+export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
 
 
-    const dec = compositeKey ? new TextDecoder().decode(fromBase58(compositeKey)).split("_") : undefined
-    const [id, setId] = useState(dec?.at(0))
-    const [encodedKey, setEncodedKey] = useState(dec?.at(1) ?? "")
-
+    const [compositeKey,setCompositeKey] = useState(_compositeKey??"")
+   
     const [text, setText] = useState("")
     const [loading, setLoading] = useState(false)
     const [remainingReads, setRemainingReads] = useState<number | null>(null)
@@ -29,19 +27,18 @@ export const Client: React.FC<Props> = ({ compositeKey }) => {
             setLoading(true)
 
 
+            const decodedCompositeKey = new TextDecoder().decode(fromBase58(compositeKey))
+            const [id, secret] = decodedCompositeKey.split("_")
 
 
             const res = await fetch(`/api/v1/load?id=${id}`).then(r => r.json()) as { iv: string, data: string, remainingReads: number | null }
             setRemainingReads(res.remainingReads)
 
-            console.log(res)
-
-            console.log(fromBase58(res.iv))
 
             const key = await crypto.subtle.importKey("jwk",
                 {
                     kty: "oct",
-                    k: encodedKey,
+                    k: secret,
                     alg: "A128CBC",
 
                     ext: true
@@ -57,7 +54,6 @@ export const Client: React.FC<Props> = ({ compositeKey }) => {
                 key,
                 fromBase58(res.data)
             )
-            console.log("XXXX")
 
             setText(new TextDecoder().decode(decrypted))
 
@@ -106,35 +102,20 @@ export const Client: React.FC<Props> = ({ compositeKey }) => {
                     <Title>Decrypt a document</Title>
 
 
-                    <div className="grid items-center justify-center w-full grid-cols-1 gap-8 mt-8 sm:grid-cols-2 ">
-                        <div className="px-3 py-2 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
-                            <label htmlFor="id" className="block text-xs font-medium text-zinc-100">
-                                ID
-                            </label>
-                            <input
-                                type="text"
-                                name="id"
-                                id="id"
-                                className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
-                                value={id}
-                                onChange={(e) => setId(e.target.value)}
-                            />
-                        </div>
-                        <div className="relative px-3 py-2 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
-                            <label htmlFor="key" className="block text-xs font-medium text-zinc-100">
-                                KEY
-                            </label>
-                            <input
-                                type="text"
-                                name="key"
-                                id="key"
-                                className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
-                                value={encodedKey}
-                                onChange={(e) => setEncodedKey(e.target.value)}
-                            />
-
-                        </div>
+                    <div className="px-3 py-2 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
+                        <label htmlFor="id" className="block text-xs font-medium text-zinc-100">
+                            ID
+                        </label>
+                        <input
+                            type="text"
+                            name="compositeKey"
+                            id="compositeKey"
+                            className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
+                            value={compositeKey}
+                            onChange={(e) => setCompositeKey(e.target.value)}
+                        />
                     </div>
+
                     <button
                         type="submit"
                         disabled={loading}

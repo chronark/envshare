@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { Cog6ToothIcon } from "@heroicons/react/24/outline"
+import { Cog6ToothIcon, ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline"
 import { toBase58 } from "../../util/base58"
 import { Title } from "@components/title"
 
@@ -13,6 +13,7 @@ export default function Home() {
   const [ttlMultiplier, setTtlMultiplier] = useState(60 * 60 * 24)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [copied, setCopied] = useState(false)
 
 
   const [link, setLink] = useState("")
@@ -63,6 +64,7 @@ export default function Home() {
 
       const url = new URL(window.location.href)
       url.pathname = `/unseal/${compositeKey}`
+      setCopied(false)
       setLink(url.href)
 
     } catch (e) {
@@ -86,14 +88,33 @@ export default function Home() {
         <p className="text-red-500">{error}</p>
         : null}
 
-      {link ? <div>
-        <pre
-          className="px-4 py-3 font-mono text-center bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100"
-        >
+      {link ?
+        <div className="flex flex-col items-center justify-center w-full h-full mt-8 md:mt-16 xl:mt-32">
+          <Title>Share this link with others</Title>
+          <div className="relative flex items-stretch flex-grow mt-16 focus-within:z-10">
 
-          {link}
-        </pre>
-      </div> :
+            <pre
+              className="px-4 py-3 font-mono text-center bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100"
+            >
+
+              {link}
+            </pre>
+            <button
+              type="button"
+              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-500 border text-zinc-700 border-zinc-300 rounded-r-md bg-zinc-50 hover focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 hover:text-zinc-900 hover:bg-white"
+
+              onClick={() => {
+                navigator.clipboard.writeText(link)
+                setCopied(true)
+              }}
+            >{copied ?
+              <ClipboardDocumentCheckIcon className="w-5 h-5" aria-hidden="true" />
+
+              :
+              <ClipboardDocumentIcon className="w-5 h-5" aria-hidden="true" />
+              } <span>{copied ? "Copied" : "Copy"}</span>
+            </button>
+          </div></div> :
         <form className="max-w-3xl mx-auto" onSubmit={(e) => {
           e.preventDefault()
           onSubmit()
