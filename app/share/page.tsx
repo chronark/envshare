@@ -38,7 +38,7 @@ export default function Home() {
       const compositeKey = encodeCompositeKey(id, key);
 
       const url = new URL(window.location.href);
-      url.pathname = `/unseal/${compositeKey}`;
+      url.pathname = `/${compositeKey}`;
       setCopied(false);
       setLink(url.href);
     } catch (e) {

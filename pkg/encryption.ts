@@ -22,7 +22,6 @@ export async function encrypt(text: string): Promise<{ encrypted: string; iv: st
   );
 
   const exportedKey = await crypto.subtle.exportKey("jwk", key);
-
   return {
     encrypted: toBase58(new Uint8Array(encryptedBuffer)),
     key: exportedKey.k!,

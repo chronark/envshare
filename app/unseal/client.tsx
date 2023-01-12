@@ -97,8 +97,6 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
           >
             <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Unseal"}</span>
           </button>
-
-        
         </form>
       )}
     </div>
