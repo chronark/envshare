@@ -3,8 +3,8 @@ import { Inter } from '@next/font/google'
 import Link from "next/link"
 import { Header } from "./header"
 
-
-const inter = Inter({ subsets:["latin"],variable: "--font-inter" })
+import { Analytics } from "@components/analytics"
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
 
 export default function RootLayout({
   children,
@@ -15,6 +15,8 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <head />
       <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/20">
+        <Analytics />
+
         <Header />
 
         <main className="my-16 md:my-20 min-h-[80vh] ">
