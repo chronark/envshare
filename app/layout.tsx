@@ -1,15 +1,15 @@
-import './globals.css'
-import { Inter } from '@next/font/google'
-import Link from "next/link"
-import { Header } from "./header"
+import "./globals.css";
+import { Inter } from "@next/font/google";
+import Link from "next/link";
+import { Header } from "./header";
 
-import { Analytics } from "@components/analytics"
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" })
+import { Analytics } from "@components/analytics";
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en" className={inter.variable}>
@@ -19,24 +19,30 @@ export default function RootLayout({
 
         <Header />
 
-        <main className="my-16 md:my-20 min-h-[80vh] ">
-          {children}
-        </main>
+        <main className="my-16 md:my-20 min-h-[80vh] ">{children}</main>
 
         <footer className="bottom-0 border-t inset-2x-0 border-zinc-500/20">
           <div className="flex flex-col gap-1 px-6 py-12 mx-auto text-xs text-center text-zinc-600 max-w-7xl lg:px-8">
             <p>
-              Built by <Link href="https://twitter.com/chronark_" className="font-semibold duration-200 hover:text-zinc-200">@chronark_</Link>
+              Built by{" "}
+              <Link href="https://twitter.com/chronark_" className="font-semibold duration-200 hover:text-zinc-200">
+                @chronark_
+              </Link>
             </p>
             <p>
-              EnvShare is deployed on <Link target="_blank" href="https://vercel.com" className="underline duration-200 hover:text-zinc-200">Vercel</Link> and uses {" "} <Link target="_blank" href="https://upstash.com" className="underline duration-200 hover:text-zinc-200">Upstash</Link> for storing encrypted data.
+              EnvShare is deployed on{" "}
+              <Link target="_blank" href="https://vercel.com" className="underline duration-200 hover:text-zinc-200">
+                Vercel
+              </Link>{" "}
+              and uses{" "}
+              <Link target="_blank" href="https://upstash.com" className="underline duration-200 hover:text-zinc-200">
+                Upstash
+              </Link>{" "}
+              for storing encrypted data.
             </p>
-
           </div>
-
         </footer>
       </body>
     </html>
-  )
+  );
 }
-
