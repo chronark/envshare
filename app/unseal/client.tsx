@@ -98,13 +98,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
             <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Unseal"}</span>
           </button>
 
-          <div className="mt-8">
-            <ul className="space-y-2 text-xs text-zinc-500">
-              <li>
-                <p>Fill in the id you received</p>
-              </li>
-            </ul>
-          </div>
+        
         </form>
       )}
     </div>
