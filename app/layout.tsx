@@ -2,7 +2,9 @@ import './globals.css'
 import { Inter } from '@next/font/google'
 import Link from "next/link"
 import { Header } from "./header"
-const inter = Inter({ subsets: ['latin'] })
+
+
+const inter = Inter({ subsets:["latin"],variable: "--font-inter" })
 
 export default function RootLayout({
   children,
@@ -10,15 +12,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <head />
-      <body className={`relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/20  ${inter.className}`}>
+      <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/20">
         <Header />
 
         <main className="my-16 md:my-20 min-h-[80vh] ">
           {children}
         </main>
-        
+
         <footer className="bottom-0 border-t inset-2x-0 border-zinc-500/20">
           <div className="flex flex-col gap-1 px-6 py-12 mx-auto text-xs text-center text-zinc-600 max-w-7xl lg:px-8">
             <p>
