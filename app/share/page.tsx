@@ -13,7 +13,6 @@ export default function Home() {
   const [ttlMultiplier, setTtlMultiplier] = useState(60 * 60 * 24)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
-  const [rows, setRows] = useState(5)
 
 
   const [link, setLink] = useState("")
@@ -102,15 +101,12 @@ export default function Home() {
           <Title>Encrypt and Share</Title>
 
           <textarea value={text} onChange={(e) => setText(e.target.value)}
-            rows={rows}
+            rows={5}
 
             placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
             className="block w-full mt-8 font-mono bg-transparent rounded placeholder-zinc-500 border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100"
           >
           </textarea>
-
-
-
 
           <div className="flex flex-col items-center justify-center w-full gap-4 mt-4 sm:flex-row">
             <div className="w-full sm:w-1/5">
@@ -128,13 +124,12 @@ export default function Home() {
                     setError("File size must be less than 16kb")
                     return
                   }
-                  
+
                   const reader = new FileReader()
                   reader.onload = (e) => {
 
                     const t = (e.target!.result as string)
                     setText(t)
-                    setRows(Math.min(32, t.split("\n").length))
                   }
                   reader.readAsText(file)
                 }} />
