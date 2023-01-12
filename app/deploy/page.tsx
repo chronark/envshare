@@ -76,7 +76,7 @@ export default function Deploy() {
                 {step.name}
               </h2>
 
-              <div className="mt-4 text-sm text-left duration-1000 text-zinc-500 group-hover:text-zinc-400">
+              <div className="mt-4 text-sm text-center duration-1000 text-zinc-500 group-hover:text-zinc-400">
                 {step.description}
               </div>
               <div className="w-full mt-8 md:w-auto">{step.cta}</div>

@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { Cog6ToothIcon, ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { Title } from "@components/title";
 import { encrypt } from "pkg/encryption";
@@ -87,13 +87,30 @@ export default function Home() {
         >
           <Title>Encrypt and Share</Title>
 
-          <textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            rows={5}
-            placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
-            className="block w-full mt-8 font-mono bg-transparent rounded placeholder-zinc-500 border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100"
-          />
+          <pre className="px-4 py-3 mt-8 font-mono text-left bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100">
+            <div className="flex items-start px-1 text-sm">
+              <div aria-hidden="true" className="pr-4 font-mono border-r select-none border-zinc-300/5 text-zinc-700">
+                {Array.from({
+                  length: text.split("\n").length,
+                }).map((_, index) => (
+                  <Fragment key={index}>
+                    {(index + 1).toString().padStart(2, "0")}
+                    <br />
+                  </Fragment>
+                ))}
+              </div>
+
+              <textarea
+                id="text"
+                name="text"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                rows={5}
+                placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
+                className="w-full p-0 text-base bg-transparent border-0 appearance-none resize-none hover:resize text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
+              />
+            </div>
+          </pre>
 
           <div className="flex flex-col items-center justify-center w-full gap-4 mt-4 sm:flex-row">
             <div className="w-full sm:w-1/5">

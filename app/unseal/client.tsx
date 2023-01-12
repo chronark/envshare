@@ -1,11 +1,12 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 import { Title } from "@components/title";
 
 import { decodeCompositeKey } from "pkg/encoding";
 import { decrypt } from "pkg/encryption";
+
 type Props = {
   compositeKey?: string;
 };
@@ -61,7 +62,27 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
             </div>
           ) : null}
           <pre className="px-4 py-3 mt-8 font-mono text-left bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100">
-            {text}
+            <div className="flex items-start px-1 text-sm">
+              <div aria-hidden="true" className="pr-4 font-mono border-r select-none border-zinc-300/5 text-zinc-700">
+                {Array.from({
+                  length: text.split("\n").length,
+                }).map((_, index) => (
+                  <Fragment key={index}>
+                    {(index + 1).toString().padStart(2, "0")}
+                    <br />
+                  </Fragment>
+                ))}
+              </div>
+              <div>
+                {text.split("\n").map((line) => {
+                  return (
+                    <pre className="flex overflow-x-auto">
+                      <code className="px-4 text-left">{line}</code>
+                    </pre>
+                  );
+                })}
+              </div>
+            </div>
           </pre>
         </div>
       ) : (
