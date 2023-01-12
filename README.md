@@ -29,3 +29,15 @@ EnvShare is a simple tool to share environment variables securely. It uses **AES
 - [tailwindcss](https://tailwindcss.com)
 - Deployed on [Vercel](https://vercel.com)
 - Data stored on [Upstash](https://upstash.com)
+
+
+
+## Deploy your own
+
+Detailed instructions can be found [here](https://envshare.chronark.dev/deploy)
+
+
+All you need is a Redis database on Upstash and a Vercel account. Click the button below to clone and deploy:
+
+[![Deploy with Vercel](https://vercel.com/button)](hhttps://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fchronark%2Fenvshare&env=UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN&demo-title=Share%20Environment%20Variables%20Securely&demo-url=https%3A%2F%2Fcryptic.vercel.app)
+ 
