@@ -74,13 +74,10 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
                 ))}
               </div>
               <div>
-                {text.split("\n").map((line) => {
-                  return (
-                    <pre className="flex overflow-x-auto">
-                      <code className="px-4 text-left">{line}</code>
-                    </pre>
-                  );
-                })}
+
+                <pre className="flex overflow-x-auto">
+                  <code className="px-4 text-left">{text}</code>
+                </pre>
               </div>
             </div>
           </pre>
@@ -112,9 +109,8 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-8 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1  duration-300  hover:text-black hover:drop-shadow-cta   hover:bg-white ${
-              loading ? "animate-pulse" : ""
-            }`}
+            className={`mt-8 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1  duration-300  hover:text-black hover:drop-shadow-cta   hover:bg-white ${loading ? "animate-pulse" : ""
+              }`}
           >
             <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Unseal"}</span>
           </button>
