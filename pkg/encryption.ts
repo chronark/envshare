@@ -1,14 +1,21 @@
-import { fromBase58, toBase58 } from "util/base58";
+import { fromBase58, toBase58 } from "../util/base58";
 
-export async function encrypt(text: string): Promise<{ encrypted: string; iv: string; key: string }> {
-  const key = await crypto.subtle.generateKey(
+export async function generateKey() {
+
+  return await crypto.subtle.generateKey(
     {
       name: "AES-CBC",
       length: 128,
     },
     true,
     ["encrypt", "decrypt"],
-  );
+  )
+}
+
+
+export async function encrypt(text: string): Promise<{ encrypted: string; iv: string; key: string }> {
+
+  const key = await generateKey()
 
   const iv = crypto.getRandomValues(new Uint8Array(16));
 

@@ -1,4 +1,4 @@
-import { toBase58 } from "util/base58";
+import { toBase58 } from "../util/base58";
 
 // how many bytes are used for the id
 export const idBytes = 8;
