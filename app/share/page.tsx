@@ -86,6 +86,7 @@ export default function Home() {
           className="max-w-3xl mx-auto"
           onSubmit={(e) => {
             e.preventDefault();
+            if (text.length <= 0) return;
             onSubmit();
           }}
         >
