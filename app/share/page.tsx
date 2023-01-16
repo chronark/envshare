@@ -107,7 +107,7 @@ export default function Home() {
                 name="text"
                 value={text}
                 onChange={(e) => setText(e.target.value)}
-                rows={5}
+                rows={Math.max(5, text.split("\n").length)}
                 placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
                 className="w-full p-0 text-base bg-transparent border-0 appearance-none resize-none hover:resize text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
               />
