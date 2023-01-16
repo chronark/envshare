@@ -1,11 +1,13 @@
 "use client";
 import React, { Fragment, useState } from "react";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { ClipboardDocumentCheckIcon, ClipboardDocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 import { Title } from "@components/title";
 
 import { decodeCompositeKey } from "pkg/encoding";
 import { decrypt } from "pkg/encryption";
+import Link from "next/link";
+import { ErrorMessage } from "@components/error";
 
 type Props = {
   compositeKey?: string;
@@ -17,6 +19,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
   const [loading, setLoading] = useState(false);
   const [remainingReads, setRemainingReads] = useState<number | null>(null);
   const [error, setError] = useState("");
+  const [copied, setCopied] = useState(false);
 
   const onSubmit = async () => {
     try {
@@ -46,8 +49,9 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
 
   return (
     <div className="container px-8 mx-auto mt-16 lg:mt-32 ">
+      {error ? <ErrorMessage message={error} /> : null}
       {text ? (
-        <div className="">
+        <div className="max-w-4xl mx-auto">
           {remainingReads !== null ? (
             <div className="text-sm text-center text-zinc-600">
               {remainingReads > 0 ? (
@@ -80,6 +84,31 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
               </div>
             </div>
           </pre>
+
+          <div className="flex items-center justify-end gap-4 mt-4">
+            <Link
+              href="/share"
+              type="button"
+              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-150 border rounded text-zinc-300 border-zinc-300/40 hover:border-zinc-300 focus:outline-none hover:text-white"
+            >
+              Share another
+            </Link>
+            <button
+              type="button"
+              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-150 border rounded text-zinc-700 border-zinc-300 bg-zinc-50 hover focus:border-zinc-500 focus:outline-none hover:text-zinc-50 hover:bg-zinc-900"
+              onClick={() => {
+                navigator.clipboard.writeText(text);
+                setCopied(true);
+              }}
+            >
+              {copied ? (
+                <ClipboardDocumentCheckIcon className="w-5 h-5" aria-hidden="true" />
+              ) : (
+                <ClipboardDocumentIcon className="w-5 h-5" aria-hidden="true" />
+              )}{" "}
+              <span>{copied ? "Copied" : "Copy"}</span>
+            </button>
+          </div>
         </div>
       ) : (
         <form
@@ -108,7 +137,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
           <button
             type="submit"
             disabled={loading}
-            className={`mt-8 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1  duration-300  hover:text-black hover:drop-shadow-cta   hover:bg-white ${
+            className={`mt-8 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1  duration-150  hover:text-black hover:drop-shadow-cta   hover:bg-white ${
               loading ? "animate-pulse" : ""
             }`}
           >

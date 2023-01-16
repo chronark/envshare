@@ -67,12 +67,12 @@ export default function Deploy() {
               aria-hidden="true"
             />
             <span className="flex items-center h-9" aria-hidden="true">
-              <span className="relative z-10 flex items-center justify-center w-8 h-8 text-sm text-blue-400 duration-500 border border-blue-400 rounded-full bg-zinc-900 group-hover:border-blue-500 drop-shadow-blue">
+              <span className="relative z-10 flex items-center justify-center w-8 h-8 text-sm text-blue-400 duration-150 border border-blue-400 rounded-full bg-zinc-900 group-hover:border-blue-500 drop-shadow-blue">
                 {stepIdx + 1}
               </span>
             </span>
             <div className="z-10 flex flex-col items-center">
-              <h2 className="text-xl font-medium duration-500 lg:text-2xl text-zinc-200 group-hover:text-white">
+              <h2 className="text-xl font-medium duration-150 lg:text-2xl text-zinc-200 group-hover:text-white">
                 {step.name}
               </h2>
 

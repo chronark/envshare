@@ -1,10 +1,8 @@
 import { toBase58 } from "../util/base58";
-
-// how many bytes are used for the id
-export const idBytes = 8;
+import { ID_LENGTH } from "./constants";
 
 export function generateId(): string {
-  const bytes = new Uint8Array(idBytes);
+  const bytes = new Uint8Array(ID_LENGTH);
   crypto.getRandomValues(bytes);
   return toBase58(bytes);
 }
