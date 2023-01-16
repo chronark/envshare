@@ -7,6 +7,8 @@ import { encrypt } from "pkg/encryption";
 import { ErrorMessage } from "@components/error";
 import { encodeCompositeKey } from "pkg/encoding";
 
+const LATEST_KEY_VERSION = 2;
+
 export default function Home() {
   const [text, setText] = useState("");
   const [reads, setReads] = useState(999);
@@ -37,7 +39,7 @@ export default function Home() {
         }),
       }).then((r) => r.json())) as { id: string };
 
-      const compositeKey = encodeCompositeKey(1, id, key);
+      const compositeKey = encodeCompositeKey(LATEST_KEY_VERSION, id, key);
 
       const url = new URL(window.location.href);
       url.pathname = `/${compositeKey}`;
