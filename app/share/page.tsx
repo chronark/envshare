@@ -108,6 +108,7 @@ export default function Home() {
                 id="text"
                 name="text"
                 value={text}
+                minLength="1"
                 onChange={(e) => setText(e.target.value)}
                 rows={Math.max(5, text.split("\n").length)}
                 placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
@@ -188,10 +189,9 @@ export default function Home() {
           </div>
           <button
             type="submit"
-            disabled={loading}
-            className={`mt-6 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1 ring-transparent duration-150  hover:text-zinc-100 hover:ring-zinc-600/80  hover:bg-zinc-900/20 ${
-              loading ? "animate-pulse" : ""
-            }`}
+            disabled={loading || text?.length <= 0}
+            className={`mt-6 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1 ring-transparent duration-150  hover:text-zinc-100 hover:ring-zinc-600/80  hover:bg-zinc-900/20 ${loading ? "animate-pulse" : ""
+              }`}
           >
             <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Share"}</span>
           </button>
