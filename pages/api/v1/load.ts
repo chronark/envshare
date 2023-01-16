@@ -14,7 +14,7 @@ export default async function handler(req: NextRequest) {
 
   const data = await redis.hgetall<{ encrypted: string; remainingReads: number | null; iv: string }>(key);
   if (!data) {
-    return new NextResponse(`Not Found: ${key}`, { status: 404 });
+    return new NextResponse("Not Found", { status: 404 });
   }
   console.log({ data });
   if (data.remainingReads !== null && data.remainingReads < 1) {
