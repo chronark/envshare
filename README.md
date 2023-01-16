@@ -4,7 +4,7 @@
 </div>
 
 <div align="center">
-  <a href="https://envshare.chronark.dev/">envshare.chronark.dev</a>
+  <a href="https://envshare.dev">envshare.dev</a>
 </div>
 <br/>
 
@@ -34,10 +34,10 @@ EnvShare is a simple tool to share environment variables securely. It uses **AES
 
 ## Deploy your own
 
-Detailed instructions can be found [here](https://envshare.chronark.dev/deploy)
+Detailed instructions can be found [here](https://envshare.dev/deploy)
 
 
 All you need is a Redis database on Upstash and a Vercel account. Click the button below to clone and deploy:
 
-[![Deploy with Vercel](https://vercel.com/button)](hhttps://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fchronark%2Fenvshare&env=UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN&demo-title=Share%20Environment%20Variables%20Securely&demo-url=https%3A%2F%2Fcryptic.vercel.app)
+[![Deploy with Vercel](https://vercel.com/button)](hhttps://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fchronark%2Fenvshare&env=UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN&demo-title=Share%20Environment%20Variables%20Securely&demo-url=https%3A%2F%2Fenvshare-chronark.vercel.app)
  
