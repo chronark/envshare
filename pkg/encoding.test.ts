@@ -11,9 +11,9 @@ describe("composite key encoding", () => {
   it("encodes and decodes composite keys", async () => {
     for (let i = 0; i < 10000; i++) {
       const id = generateId();
-      const key = (await crypto.subtle.exportKey("jwk", await generateKey())).k!;
+      const key = new Uint8Array(await crypto.subtle.exportKey("raw", await generateKey()));
 
-      const encoded = encodeCompositeKey(id, key);
+      const encoded = encodeCompositeKey(1, id, key);
 
       const decoded = decodeCompositeKey(encoded);
       expect(decoded.id).toEqual(id);
