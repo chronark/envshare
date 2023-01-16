@@ -9,11 +9,10 @@ export function Analytics() {
       beforeSend={(event) => {
         const url = new URL(event.url);
         if (!track.includes(url.pathname)) {
-          url.pathname = "<redacted>"
+          url.pathname = "/<redacted>"
           return {
             ...event,
             url: url.href,
-
           }
         }
         return event;
