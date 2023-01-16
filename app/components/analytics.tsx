@@ -1,6 +1,18 @@
 "use client";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
+const track = ["/", "/share", "/deploy", "/unseal"];
+
 export function Analytics() {
-  return <VercelAnalytics />;
+  return (
+    <VercelAnalytics
+      beforeSend={(event) => {
+        const url = new URL(event.url);
+        if (!track.includes(url.pathname)) {
+          return null;
+        }
+        return event;
+      }}
+    />
+  );
 }
