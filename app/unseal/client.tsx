@@ -28,7 +28,6 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
       setLoading(true);
 
       const { id, encryptionKey, version } = decodeCompositeKey(compositeKey);
-
       const res = await fetch(`/api/v1/load?id=${id}`);
       if (!res.ok) {
         throw new Error(await res.text());

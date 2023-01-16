@@ -24,12 +24,10 @@ export default async function handler(req: NextRequest) {
     iv,
   });
   if (ttl) {
-    console.log("Adding ttl=", ttl);
     tx.expire(key, ttl);
   }
   await tx.exec();
 
-  console.log("Created", { id, key });
   return NextResponse.json({ id });
 }
 

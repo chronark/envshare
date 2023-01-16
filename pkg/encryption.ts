@@ -34,14 +34,13 @@ export async function encrypt(text: string): Promise<{ encrypted: Uint8Array; iv
 }
 
 export async function decrypt(encrypted: string, keyData: Uint8Array, iv: string, keyVersion: number): Promise<string> {
-  const key = await crypto.subtle.importKey("raw", keyData, { name: "AES-GCM", length: 128 }, false, [
-    "encrypt",
-    "decrypt",
-  ]);
+  const algorithm = keyVersion === 1 ? "AES-CBC" : "AES-GCM";
+
+  const key = await crypto.subtle.importKey("raw", keyData, { name: algorithm, length: 128 }, false, ["decrypt"]);
 
   const decrypted = await crypto.subtle.decrypt(
     {
-      name: keyVersion === 1 ? "AES-CBC" : "AES-GCM",
+      name: algorithm,
       iv: fromBase58(iv),
     },
     key,

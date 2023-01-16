@@ -15,7 +15,7 @@ export function encodeCompositeKey(version: number, id: string, encryptionKey: U
 /**
  * To share links easily, we encode the id, where the data is stored in redis, together with the secret encryption key.
  */
-export function decodeCompositeKey(compositeKey: string): { id: string; encryptionKey: Uint8Array, version: number } {
+export function decodeCompositeKey(compositeKey: string): { id: string; encryptionKey: Uint8Array; version: number } {
   const decoded = fromBase58(compositeKey);
   const version = decoded.at(0);
 

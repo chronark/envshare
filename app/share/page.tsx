@@ -130,7 +130,6 @@ export default function Home() {
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files![0];
-                  console.log(file);
                   if (file.size > 1024 * 16) {
                     setError("File size must be less than 16kb");
                     return;

@@ -8,15 +8,12 @@ export default async function handler(req: NextRequest) {
   if (!id) {
     return new NextResponse("id param is missing", { status: 400 });
   }
-
   const key = ["envshare", id].join(":");
-  console.log({ key });
 
   const data = await redis.hgetall<{ encrypted: string; remainingReads: number | null; iv: string }>(key);
   if (!data) {
     return new NextResponse("Not Found", { status: 404 });
   }
-  console.log({ data });
   if (data.remainingReads !== null && data.remainingReads < 1) {
     await redis.del(key);
     return new NextResponse("Not Found", { status: 404 });
