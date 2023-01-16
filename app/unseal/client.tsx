@@ -27,8 +27,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
       setText("");
       setLoading(true);
 
-      const { id, encryptionKey } = decodeCompositeKey(compositeKey);
-
+      const { id, encryptionKey, version } = decodeCompositeKey(compositeKey);
       const res = await fetch(`/api/v1/load?id=${id}`);
       if (!res.ok) {
         throw new Error(await res.text());
@@ -40,7 +39,7 @@ export const Client: React.FC<Props> = ({ compositeKey: _compositeKey }) => {
       };
       setRemainingReads(json.remainingReads);
 
-      const decrypted = await decrypt(json.encrypted, encryptionKey, json.iv);
+      const decrypted = await decrypt(json.encrypted, encryptionKey, json.iv, version);
 
       setText(decrypted);
     } catch (e) {

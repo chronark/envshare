@@ -16,7 +16,7 @@ describe("aes", () => {
 
       const { encrypted, key, iv } = await encrypt(text);
 
-      const decrypted = await decrypt(toBase58(encrypted), key, toBase58(iv));
+      const decrypted = await decrypt(toBase58(encrypted), key, toBase58(iv), 2);
 
       expect(decrypted).toEqual(text);
     }
