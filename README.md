@@ -55,3 +55,55 @@ Any truthy value will enable Vercel Analytics. This is turned off by default
 This repository uses `pnpm` to manage dependencies. Install it using `npm install -g pnpm`
 
 Please run `pnpm fmt` before committing to format the code.
+
+
+
+## Docs
+
+Docs in the README are temporary and will be moved to the website soon.
+
+### API
+
+#### Store a secret
+
+**PLEASE NEVER EVER UPLOAD UNENCRYPTED SECRETS.**
+
+This endpoint is only meant to store **already encrypted** secrets. The encrypted secrets are stored in plain text. 
+
+
+
+```sh-session
+$ curl -XPOST -s https://envshare.dev/api/v1/secret -d "already-encrypted-secret" 
+```
+You can add optional headers to configure the ttl and number of reads. 
+
+```sh-session
+$ curl -XPOST -s https://envshare.dev/api/v1/secret -d "already-encrypted-secret" -H "envshare-ttl: 3600" -H "envshare-reads: 10"
+```
+
+This endpoint returns a JSON response with the secret id:
+  
+```json
+{
+  "data": {
+    "id": "HdPbXgpvUvNk43oxSdK97u"
+  }
+}
+```
+
+#### Retrieve a secret
+
+You need an id to retrieve a secret. The id is returned when you store a secret.
+
+
+```sh-session
+$ curl -s https://envshare.dev/api/v1/secret/JbaEujpLJedaTVCt8zGD7N
+```
+```json
+{
+  "data": {
+    "secret": "Hello",
+    "remainingReads": 1
+  }
+}
+```

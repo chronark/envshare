@@ -24,6 +24,7 @@ specifiers:
   tailwindcss: ^3.2.4
   ts-jest: ^29.0.5
   typescript: 4.9.4
+  zod: ^3.20.2
 
 dependencies:
   '@heroicons/react': 2.0.13_react@18.2.0
@@ -41,6 +42,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   typescript: 4.9.4
+  zod: 3.20.2
 
 devDependencies:
   '@jest/globals': 29.3.1
@@ -4369,3 +4371,7 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod/3.20.2:
+    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+    dev: false
