@@ -40,3 +40,18 @@ Detailed instructions can be found [here](https://envshare.dev/deploy)
 All you need is a Redis database on Upstash and a Vercel account. Click the button below to clone and deploy:
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?demo-title=EnvShare&demo-description=Simple%20Next.js%20%2B%20Upstash%20app%20to%20share%20environment%20variables%20securely%20using%20AES-GCM%20encryption.&demo-url=https%3A%2F%2Fenvshare.dev%2F&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F5SaFBHXp5FBFJbsTzVqIJ3%2Ff0f8382369b7642fd8103debb9025c11%2Fenvshare.png&project-name=EnvShare&repository-name=envshare&repository-url=https%3A%2F%2Fgithub.com%2Fchronark%2Fenvshare&from=templates&integration-ids=oac_V3R1GIpkoJorr6fqyiwdhl17) 
+
+
+
+## Configuration
+
+### Environment Variables
+
+`ENABLE_VERCEL_ANALYTICS`
+Any truthy value will enable Vercel Analytics. This is turned off by default
+
+## Contributing
+
+This repository uses `pnpm` to manage dependencies. Install it using `npm install -g pnpm`
+
+Please run `pnpm fmt` before committing to format the code.
