@@ -13,10 +13,6 @@ type PostApiRequest = {
     secret: string;
 }
 
-type GetApiRequest = {
-    id: string;
-}
-
 const redis = Redis.fromEnv();
 export default async function handler(req: NextRequest): Promise<NextResponse> {
     if (req.method === "POST") {
