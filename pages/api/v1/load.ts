@@ -10,7 +10,10 @@ export default async function handler(req: NextRequest) {
   }
   const key = ["envshare", id].join(":");
 
-  const data = await redis.hgetall<{ encrypted: string; remainingReads: number | null; iv: string }>(key);
+  const [data, _] = await Promise.all([
+    await redis.hgetall<{ encrypted: string; remainingReads: number | null; iv: string }>(key),
+    await redis.incr("envshare:metrics:reads"),
+  ]);
   if (!data) {
     return new NextResponse("Not Found", { status: 404 });
   }
