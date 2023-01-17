@@ -1,4 +1,4 @@
-import { fromBase58, toBase58 } from "../util/base58";
+import { fromBase58 } from "../util/base58";
 
 export async function generateKey() {
   return await crypto.subtle.generateKey(
