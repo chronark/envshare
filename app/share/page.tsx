@@ -211,7 +211,7 @@ export default function Home() {
               <li>
                 <p>
                   <span className="font-semibold text-zinc-400">TTL:</span> You can add a TTL (time to live) to the
-                  data, to automaticallydelete it after a certain amount of time. 0 means no TTL.
+                  data, to automatically delete it after a certain amount of time. 0 means no TTL.
                 </p>
               </li>
               <p>
