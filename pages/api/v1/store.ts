@@ -26,6 +26,8 @@ export default async function handler(req: NextRequest) {
   if (ttl) {
     tx.expire(key, ttl);
   }
+  tx.incr("envshare:metrics:writes");
+
   await tx.exec();
 
   return NextResponse.json({ id });
