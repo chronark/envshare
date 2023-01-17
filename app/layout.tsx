@@ -15,7 +15,10 @@ export default function RootLayout({
     <html lang="en" className={inter.variable}>
       <head />
       <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/20">
-        <Analytics />
+        {
+          // Not everyone will want to host envshare on Vercel, so it makes sense to make this opt-in.
+          process.env.ENABLE_VERCEL_ANALYTICS ? <Analytics /> : null
+        }
 
         <Header />
 
