@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <head />
-      <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/20">
+      <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/30">
         {
           // Not everyone will want to host envshare on Vercel, so it makes sense to make this opt-in.
           process.env.ENABLE_VERCEL_ANALYTICS ? <Analytics /> : null
@@ -30,6 +30,13 @@ export default function RootLayout({
               Built by{" "}
               <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
                 @chronark_
+              </Link>
+              and{" "}
+              <Link
+                href="https://github.com/chronark/envshare/graphs/contributors"
+                className="underline duration-150 hover:text-zinc-200"
+              >
+                many others{" "}
               </Link>
             </p>
             <p>

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Stats } from "./components/stats";
+import { Testimonials } from "./components/testimony";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex flex-col items-center justify-center flex-grow max-w-3xl px-8 mx-auto mt-8 sm:min-h-screen sm:mt-0 sm:px-0">
+    <div className="flex flex-col gap-8 pb-8 md:gap-16 md:pb-16 xl:pb-24">
+      <div className="flex flex-col items-center justify-center max-w-3xl px-8 mx-auto mt-8 sm:min-h-screen sm:mt-0 sm:px-0">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
           <Link
             href="https://github.com/chronark/envshare"
@@ -41,9 +42,9 @@ export default function Home() {
           </div>
         </div>
       </div>
-      <div className="relative mb-16 sm:mb-24 lg:mb-32">
-        <Stats />
-      </div>
+      <h2 className="py-4 text-3xl font-bold text-center text-zinc-300 ">Used and trusted by a growing community</h2>
+      <Stats />
+      <Testimonials />
     </div>
   );
 }
