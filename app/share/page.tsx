@@ -42,9 +42,10 @@ export default function Home() {
       const compositeKey = encodeCompositeKey(LATEST_KEY_VERSION, id, key);
 
       const url = new URL(window.location.href);
-      url.pathname = `/${compositeKey}`;
+      url.pathname = "/unseal";
+      url.hash = compositeKey;
       setCopied(false);
-      setLink(url.href);
+      setLink(url.toString());
     } catch (e) {
       console.error(e);
       setError((e as Error).message);
