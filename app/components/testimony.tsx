@@ -54,7 +54,7 @@ export const Testimonials = () => {
       link: "https://twitter.com/FrederikMarkor/status/1615299856205250560",
       author: {
         name: <Author href="https://twitter.com/FrederikMarkor">Frederik Markor</Author>,
-        title: <Title href="https://discreet.net">CEO at discreet.ent</Title>,
+        title: <Title href="https://discreet.net">CEO @discreet</Title>,
         image: "https://pbs.twimg.com/profile_images/1438061314010664962/NecuMIGR_400x400.jpg",
       },
     },
