@@ -38,17 +38,22 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
                 encrypted: toBase58(encrypted),
                 iv: toBase58(iv),
             });
-            if (ttl) {
-                const ttlMultiplier = ttlType === "minutes" ? 60 : ttlType === "hours" ? 60 * 60 : 60 * 60 * 24;
-                tx.expire(rediskey, ttl * ttlMultiplier);
-            }
+            
+            const ttlMultiplier = ttlType === "minutes" ? 60 : ttlType === "hours" ? 60 * 60 : 60 * 60 * 24;
+            const ttlSeconds = ttl * ttlMultiplier;
+            const timestampInSeconds = Date.now() / 1000;
+            const expiresAt = timestampInSeconds + ttlSeconds;
+            const expirationDate = new Date((expiresAt) * 1000);
+            tx.expire(rediskey, ttlSeconds);
+            
             
             await tx.exec();
     
             const url = new URL(req.url);
-            url.pathname= `/${compositeKey}`;
+            url.pathname= '/unseal';
+            url.hash = compositeKey;
     
-            return NextResponse.json({ data: url.href });
+            return NextResponse.json({ data: { url: url.toString(), id: compositeKey, expirationDate: expirationDate, expirationTime: Math.floor(expiresAt), reads: reads } });
         } catch (e) {
             console.error(e);
             return NextResponse.json({error: 'Internal Server Error'}, { status: 500 });
