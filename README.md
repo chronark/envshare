@@ -88,7 +88,11 @@ This endpoint returns a JSON response with the secret id:
 ```json
 {
   "data": {
-    "id": "HdPbXgpvUvNk43oxSdK97u"
+    "id": "HdPbXgpvUvNk43oxSdK97u",
+    "ttl": 86400,
+    "reads": 2,
+    "expiresAt": "2023-01-19T20:47:28.383Z",
+    "url": "http://envshare.dev/api/v1/secret/HdPbXgpvUvNk43oxSdK97u"
   }
 }
 ```
@@ -99,7 +103,7 @@ You need an id to retrieve a secret. The id is returned when you store a secret.
 
 
 ```sh-session
-$ curl -s https://envshare.dev/api/v1/secret/JbaEujpLJedaTVCt8zGD7N
+$ curl -s https://envshare.dev/api/v1/secret/HdPbXgpvUvNk43oxSdK97u
 ```
 ```json
 {
