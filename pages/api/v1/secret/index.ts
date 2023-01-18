@@ -30,6 +30,7 @@ export const responseValidation = z.union([
       ttl: z.number().optional(),
       reads: z.number().optional(),
       expiresAt: z.string(),
+      url: z.string().url(),
     }),
   }),
   z.object({
@@ -70,6 +71,8 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
     }
 
     await tx.exec();
+    const url = new URL(req.url);
+    url.pathname = `/api/v1/secret/${id}`;
 
     return NextResponse.json(
       responseValidation.parse({
@@ -78,6 +81,7 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
           ttl: ttl > 0 ? ttl : undefined,
           reads: reads ?? undefined,
           expiresAt: ttl > 0 ? new Date(Date.now() + ttl * 1000).toISOString() : undefined,
+          url: url.toString(),
         },
       }),
     );
