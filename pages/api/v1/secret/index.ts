@@ -58,7 +58,6 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
     const id = generateId();
     const rediskey = ["envshare", id].join(":");
 
-    console.log({ ttl, reads });
     const tx = redis.multi();
 
     tx.hset(rediskey, {
