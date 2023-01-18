@@ -90,9 +90,9 @@ This endpoint returns a JSON response with the secret id:
   "data": {
     "id": "HdPbXgpvUvNk43oxSdK97u",
     "ttl": 86400,
-		"reads": 2,
-		"expiresAt": "2023-01-19T20:47:28.383Z",
-		"url": "http://localhost:3000/api/v1/secret/HdPbXgpvUvNk43oxSdK97u"
+    "reads": 2,
+    "expiresAt": "2023-01-19T20:47:28.383Z",
+    "url": "http://localhost:3000/api/v1/secret/HdPbXgpvUvNk43oxSdK97u"
   }
 }
 ```
