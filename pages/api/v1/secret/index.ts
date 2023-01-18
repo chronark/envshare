@@ -7,13 +7,15 @@ export const requestValidation = z.object({
   // ttl in seconds
   // defaults to 30 days
   // not more than 1 year
+  // 0 means no expiration
   ttl: z
     .string()
     .nullable()
     .transform((v) => (v ? parseInt(v, 10) : 43260))
-    .refine((v) => v > 0 && v <= 30758400, "ttl must be between 1 and 30758400 seconds"),
+    .refine((v) => v >= 0 && v <= 30758400, "ttl must be between 0 and 30758400 seconds"),
 
   // number of reads before deletion
+  // defaults to null (no limit)
   reads: z
     .string()
     .nullable()
@@ -53,6 +55,7 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
     const id = generateId();
     const rediskey = ["envshare", id].join(":");
 
+    console.log({ ttl, reads });
     const tx = redis.multi();
 
     tx.hset(rediskey, {
@@ -60,7 +63,9 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
       secret,
     });
     tx.incr("envshare:metrics:writes");
-    tx.expire(rediskey, ttl);
+    if (ttl > 0) {
+      tx.expire(rediskey, ttl);
+    }
 
     await tx.exec();
 
