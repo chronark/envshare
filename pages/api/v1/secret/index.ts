@@ -27,6 +27,9 @@ export const responseValidation = z.union([
   z.object({
     data: z.object({
       id: z.string(),
+      ttl: z.number().optional(),
+      reads: z.number().optional(),
+      expiresAt: z.string(),
     }),
   }),
   z.object({
@@ -69,7 +72,16 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
 
     await tx.exec();
 
-    return NextResponse.json({ data: { id } });
+    return NextResponse.json(
+      responseValidation.parse({
+        data: {
+          id,
+          ttl: ttl > 0 ? ttl : undefined,
+          reads: reads ?? undefined,
+          expiresAt: ttl > 0 ? new Date(Date.now() + ttl * 1000).toISOString() : undefined,
+        },
+      }),
+    );
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
