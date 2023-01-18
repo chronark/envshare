@@ -46,7 +46,7 @@ export default async function handler(req: NextRequest): Promise<NextResponse> {
       secret: await req.text(),
     });
     if (!parsed.success) {
-      return NextResponse.json({ error: JSON.stringify(JSON.parse(parsed.error.message), null, 2) }, { status: 400 });
+      return NextResponse.json({ error: JSON.parse(parsed.error.message) }, { status: 400 });
     }
     const { ttl, reads, secret } = parsed.data;
 
