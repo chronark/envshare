@@ -92,7 +92,7 @@ This endpoint returns a JSON response with the secret id:
     "ttl": 86400,
     "reads": 2,
     "expiresAt": "2023-01-19T20:47:28.383Z",
-    "url": "http://localhost:3000/api/v1/secret/HdPbXgpvUvNk43oxSdK97u"
+    "url": "http://envshare.dev/api/v1/secret/HdPbXgpvUvNk43oxSdK97u"
   }
 }
 ```
