@@ -7,7 +7,6 @@ export default function Head({title, subtitle}: {title: string, subtitle: string
 
   const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
-  // Either host or referer?
   const url = new URL(`${baseUrl}/api/v1/og?title=${encodeURIComponent(title)}&=subtitle=${encodeURIComponent(subtitle)}`);
 
   const imgURL = `${url.toString()}`;
