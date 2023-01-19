@@ -43,8 +43,8 @@ export default async function handler(req: NextRequest) {
         </div>
       </div>,
       {
-        height: searchParams.get("height") ?? 630,
-        width: searchParams.get("width") ?? 1200,
+        height: 630,
+        width: 1200,
         emoji: "twemoji",
         fonts: [
           {
