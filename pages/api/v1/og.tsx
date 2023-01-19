@@ -13,7 +13,7 @@ export default function handler(req: NextRequest) {
         const subtitle = searchParams.get('subtitle') ?? 'EnvShare';
         
         return new ImageResponse(
-            (<div tw='w-[1200px] h-[627px] flex flex-col items-center justify-center text-center'>
+            (<div tw='w-[1200px] h-[630px] flex flex-col items-center justify-center text-center'>
                 <div tw="bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/30 w-full h-full flex">
                     <div tw="flex flex-col text-3xl tracking-tight text-gray-300 w-full items-center h-full justify-center text-center">
                         <span tw="text-white bg-gradient-to-t bg-clip-text from-zinc-100/50 to-white text-7xl font-semibold whitespace-pre">{title}</span>

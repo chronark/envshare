@@ -1,10 +1,16 @@
+import { headers } from 'next/headers';
+
 export default function Head({title, subtitle}: {title: string, subtitle: string}) {
+  const headersInstance = headers();
   // Fallback tagline
   if (!title) title = 'Share Environment Variables Securely';
   if (!subtitle) subtitle = 'EnvShare';
 
-  // I'll have to use a different method to generate the image URL, because window can be undefined on the server
-  const url = new URL(`${window.location.href}api/v1/og?title=${encodeURIComponent(title)}&=subtitle=${encodeURIComponent(subtitle)}`);
+  // Hacky way to resolve the scheme for locally running EnvShare
+  const scheme = headersInstance.get('host').includes('localhost') ? 'http' : 'https';
+
+  // Either host or referer?
+  const url = new URL(`${scheme}://${headersInstance.get('host')}/api/v1/og?title=${encodeURIComponent(title)}&=subtitle=${encodeURIComponent(subtitle)}`);
 
   const imgURL = `${url.toString()}`;
   return (
