@@ -1,16 +1,14 @@
 import { headers } from 'next/headers';
 
 export default function Head({title, subtitle}: {title: string, subtitle: string}) {
-  const headersInstance = headers();
   // Fallback tagline
   if (!title) title = 'Share Environment Variables Securely';
   if (!subtitle) subtitle = 'EnvShare';
 
-  // Hacky way to resolve the scheme for locally running EnvShare
-  const scheme = headersInstance.get('host').includes('localhost') ? 'http' : 'https';
+  const baseUrl = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000";
 
   // Either host or referer?
-  const url = new URL(`${scheme}://${headersInstance.get('host')}/api/v1/og?title=${encodeURIComponent(title)}&=subtitle=${encodeURIComponent(subtitle)}`);
+  const url = new URL(`${baseUrl}/api/v1/og?title=${encodeURIComponent(title)}&=subtitle=${encodeURIComponent(subtitle)}`);
 
   const imgURL = `${url.toString()}`;
   return (
