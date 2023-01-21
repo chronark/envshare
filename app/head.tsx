@@ -1,5 +1,3 @@
-import { headers } from "next/headers";
-
 export default function Head({ title, subtitle }: { title: string; subtitle: string }) {
   // Fallback tagline
   title ??= "Share Environment Variables Securely";
