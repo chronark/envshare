@@ -13,3 +13,9 @@
     @apply appearance-none;
   }
 }
+
+.break { 
+  -webkit-overflow-wrap : anywhere ;
+  -moz-overflow-wrap : anywhere ;
+  overflow-wrap: anywhere;
+}
