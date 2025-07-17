@@ -10,7 +10,7 @@
 
 EnvShare is a simple tool to share environment variables securely. It uses
 **AES-GCM** to encrypt your data before sending it to the server. The encryption
-key never leaves your browser.
+key never leaves your browser
 
 ## Features
 

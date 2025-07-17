@@ -21,7 +21,7 @@ export default function Head({ title, subtitle }: { title: string; subtitle: str
       <meta name="revisit-after" content="7 days" />
       <meta name="robots" content="all" />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
-      
+
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
       <meta property="og:url" content={baseUrl} />
