@@ -3,10 +3,13 @@ import { toBase58 } from "util/base58";
 import { useState, Fragment } from "react";
 import { Cog6ToothIcon, ClipboardDocumentIcon, ClipboardDocumentCheckIcon } from "@heroicons/react/24/outline";
 import { Title } from "@components/title";
+import { FormFieldLabel, FormFieldShell } from "@components/form-field";
 import { encrypt } from "pkg/encryption";
 import { ErrorMessage } from "@components/error";
 import { encodeCompositeKey } from "pkg/encoding";
 import { LATEST_KEY_VERSION } from "pkg/constants";
+
+const pageShell = "mx-auto max-w-3xl px-6 pb-20 pt-12 md:px-12 md:pt-16 lg:pt-20";
 
 export default function Home() {
   const [text, setText] = useState("");
@@ -54,36 +57,36 @@ export default function Home() {
   };
 
   return (
-    <div className="container px-8 mx-auto mt-16 lg:mt-32 ">
+    <div className={pageShell}>
       {error ? <ErrorMessage message={error} /> : null}
 
       {link ? (
-        <div className="flex flex-col items-center justify-center w-full h-full mt-8 md:mt-16 xl:mt-32">
+        <div className="flex flex-col items-center">
           <Title>Share this link with others</Title>
-          <div className="relative flex items-stretch flex-grow mt-16 focus-within:z-10">
-            <pre className="px-4 py-3 font-mono text-center bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100">
+          <div className="mt-12 flex w-full max-w-full flex-col overflow-hidden rounded-lg border border-border shadow-sm sm:max-w-3xl sm:flex-row">
+            <pre className="max-h-48 flex-1 overflow-x-auto overflow-y-auto bg-muted/30 px-4 py-3 text-center font-mono text-xs leading-relaxed text-foreground sm:text-sm">
               {link}
             </pre>
             <button
               type="button"
-              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-150 border text-zinc-700 border-zinc-300 rounded-r-md bg-zinc-50 hover focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 hover:text-zinc-900 hover:bg-white"
+              className="inline-flex shrink-0 items-center justify-center gap-2 border-t border-border bg-muted px-4 py-3 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-foreground transition hover:bg-accent sm:border-l sm:border-t-0"
               onClick={() => {
                 navigator.clipboard.writeText(link);
                 setCopied(true);
               }}
             >
               {copied ? (
-                <ClipboardDocumentCheckIcon className="w-5 h-5" aria-hidden="true" />
+                <ClipboardDocumentCheckIcon className="h-5 w-5" aria-hidden="true" />
               ) : (
-                <ClipboardDocumentIcon className="w-5 h-5" aria-hidden="true" />
-              )}{" "}
+                <ClipboardDocumentIcon className="h-5 w-5" aria-hidden="true" />
+              )}
               <span>{copied ? "Copied" : "Copy"}</span>
             </button>
           </div>
         </div>
       ) : (
         <form
-          className="max-w-3xl mx-auto"
+          className="mx-auto max-w-3xl"
           onSubmit={(e) => {
             e.preventDefault();
             if (text.length <= 0) return;
@@ -92,9 +95,12 @@ export default function Home() {
         >
           <Title>Encrypt and Share</Title>
 
-          <pre className="px-4 py-3 mt-8 font-mono text-left bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100">
-            <div className="flex items-start px-1 text-sm">
-              <div aria-hidden="true" className="pr-4 font-mono border-r select-none border-zinc-300/5 text-zinc-700">
+          <div className="mt-8 overflow-hidden rounded-lg border border-border bg-muted/25 shadow-sm">
+            <div className="flex items-start px-1 py-3 text-sm">
+              <div
+                aria-hidden="true"
+                className="select-none border-r border-border px-3 font-mono text-xs leading-[1.65] text-muted-foreground"
+              >
                 {Array.from({
                   length: text.split("\n").length,
                 }).map((_, index) => (
@@ -113,18 +119,21 @@ export default function Home() {
                 onChange={(e) => setText(e.target.value)}
                 rows={Math.max(5, text.split("\n").length)}
                 placeholder="DATABASE_URL=postgres://postgres:postgres@localhost:5432/postgres"
-                className="w-full p-0 text-base bg-transparent border-0 appearance-none resize-none hover:resize text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
+                className="min-h-[8rem] w-full resize-y appearance-none border-0 bg-transparent px-3 py-1 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:ring-0"
               />
             </div>
-          </pre>
+          </div>
 
-          <div className="flex flex-col items-center justify-center w-full gap-4 mt-4 sm:flex-row">
-            <div className="w-full sm:w-1/5">
+          <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-12 sm:gap-3">
+            <div className="sm:col-span-3">
               <label
-                className="flex items-center justify-center h-16 px-3 py-2 text-sm whitespace-no-wrap duration-150 border rounded hover:border-zinc-100/80 border-zinc-600 focus:border-zinc-100/80 focus:ring-0 text-zinc-100 hover:text-white hover:cursor-pointer "
                 htmlFor="file_input"
+                className="flex min-h-[4.25rem] cursor-pointer flex-col items-center justify-center rounded-lg border border-dashed border-border bg-muted/20 px-3 py-2 text-center transition hover:border-foreground/25 hover:bg-muted/40"
               >
-                Upload a file
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                  Upload file
+                </span>
+                <span className="mt-1 text-xs text-muted-foreground">Max 16 KB</span>
               </label>
               <input
                 className="hidden"
@@ -138,8 +147,8 @@ export default function Home() {
                   }
 
                   const reader = new FileReader();
-                  reader.onload = (e) => {
-                    const t = e.target!.result as string;
+                  reader.onload = (ev) => {
+                    const t = ev.target!.result as string;
                     setText(t);
                   };
                   reader.readAsText(file);
@@ -147,77 +156,95 @@ export default function Home() {
               />
             </div>
 
-            <div className="w-full h-16 px-3 py-2 duration-150 border rounded sm:w-2/5 hover:border-zinc-100/80 border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
-              <label htmlFor="reads" className="block text-xs font-medium text-zinc-100">
-                READS
-              </label>
-              <input
-                type="number"
-                name="reads"
-                id="reads"
-                className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
-                value={reads}
-                onChange={(e) => setReads(e.target.valueAsNumber)}
-              />
+            <div className="sm:col-span-4">
+              <FormFieldShell className="min-h-[4.25rem]">
+                <FormFieldLabel htmlFor="reads">Reads</FormFieldLabel>
+                <input
+                  type="number"
+                  name="reads"
+                  id="reads"
+                  className="w-full appearance-none border-0 bg-transparent p-0 font-mono text-sm tabular-nums text-foreground focus:ring-0"
+                  value={reads}
+                  onChange={(e) => setReads(e.target.valueAsNumber)}
+                />
+              </FormFieldShell>
             </div>
-            <div className="relative w-full h-16 px-3 py-2 duration-150 border rounded sm:w-2/5 hover:border-zinc-100/80 border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
-              <label htmlFor="reads" className="block text-xs font-medium text-zinc-100">
-                TTL
-              </label>
-              <input
-                type="number"
-                name="reads"
-                id="reads"
-                className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
-                value={ttl}
-                onChange={(e) => setTtl(e.target.valueAsNumber)}
-              />
-              <div className="absolute inset-y-0 right-0 flex items-center">
-                <label htmlFor="ttlMultiplier" className="sr-only" />
-                <select
-                  id="ttlMultiplier"
-                  name="ttlMultiplier"
-                  className="h-full py-0 pl-2 bg-transparent border-0 border-transparent rounded pr-7 text-zinc-500 focus:ring-0 sm:text-sm"
-                  onChange={(e) => setTtlMultiplier(parseInt(e.target.value))}
-                  defaultValue={60 * 60 * 24}
-                >
-                  <option value={60}>{ttl === 1 ? "Minute" : "Minutes"}</option>
-                  <option value={60 * 60}>{ttl === 1 ? "Hour" : "Hours"}</option>
-                  <option value={60 * 60 * 24}>{ttl === 1 ? "Day" : "Days"}</option>
-                </select>
-              </div>
+
+            <div className="sm:col-span-5">
+              <FormFieldShell className="relative min-h-[4.25rem]">
+                <FormFieldLabel htmlFor="ttl">TTL</FormFieldLabel>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    name="ttl"
+                    id="ttl"
+                    className="min-w-0 flex-1 appearance-none border-0 bg-transparent p-0 font-mono text-sm tabular-nums text-foreground focus:ring-0"
+                    value={ttl}
+                    onChange={(e) => setTtl(e.target.valueAsNumber)}
+                  />
+                  <div className="shrink-0 border-l border-border pl-2">
+                    <label htmlFor="ttlMultiplier" className="sr-only">
+                      TTL unit
+                    </label>
+                    <select
+                      id="ttlMultiplier"
+                      name="ttlMultiplier"
+                      className="cursor-pointer appearance-none border-0 bg-transparent py-1 pr-6 font-mono text-xs uppercase tracking-wide text-muted-foreground focus:ring-0"
+                      onChange={(e) => setTtlMultiplier(parseInt(e.target.value, 10))}
+                      defaultValue={60 * 60 * 24}
+                    >
+                      <option value={60}>{ttl === 1 ? "Minute" : "Minutes"}</option>
+                      <option value={60 * 60}>{ttl === 1 ? "Hour" : "Hours"}</option>
+                      <option value={60 * 60 * 24}>{ttl === 1 ? "Day" : "Days"}</option>
+                    </select>
+                  </div>
+                </div>
+              </FormFieldShell>
             </div>
           </div>
+
           <button
             type="submit"
             disabled={loading || text.length <= 0}
-            className={`mt-6 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7    bg-zinc-200 ring-1 ring-transparent duration-150   ${
+            className={`mt-8 inline-flex h-11 w-full items-center justify-center rounded-lg border px-4 font-mono text-xs font-semibold uppercase tracking-[0.18em] transition ${
               text.length <= 0
-                ? "text-zinc-400 cursor-not-allowed"
-                : "text-zinc-900 hover:text-zinc-100 hover:ring-zinc-600/80  hover:bg-zinc-900/20"
+                ? "cursor-not-allowed border-border bg-muted text-muted-foreground"
+                : "border-primary bg-primary text-primary-foreground hover:opacity-90"
             } ${loading ? "animate-pulse" : ""}`}
           >
-            <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Share"}</span>
+            <span className="inline-flex items-center gap-2">
+              {loading ? <Cog6ToothIcon className="h-5 w-5 animate-spin" /> : null}
+              {loading ? "Encrypting…" : "Share"}
+            </span>
           </button>
 
-          <div className="mt-8">
-            <ul className="space-y-2 text-xs text-zinc-500">
+          <div className="mt-8 rounded-lg border border-border bg-muted/25 p-4">
+            <ul className="space-y-3 text-xs leading-relaxed text-muted-foreground">
               <li>
-                <p>
-                  <span className="font-semibold text-zinc-400">Reads:</span> The number of reads determines how often
-                  the data can be shared, before it deletes itself. 0 means unlimited.
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground">
+                  Reads
+                </span>
+                <p className="mt-1">
+                  How many times the payload can be opened before it is removed. Use <span className="font-mono">0</span>{" "}
+                  for unlimited.
                 </p>
               </li>
               <li>
-                <p>
-                  <span className="font-semibold text-zinc-400">TTL:</span> You can add a TTL (time to live) to the
-                  data, to automatically delete it after a certain amount of time. 0 means no TTL.
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground">
+                  TTL
+                </span>
+                <p className="mt-1">
+                  Time-to-live before automatic deletion. Use <span className="font-mono">0</span> for no expiry.
                 </p>
               </li>
-              <p>
-                Clicking Share will generate a new symmetrical key and encrypt your data before sending only the
-                encrypted data to the server.
-              </p>
+              <li>
+                <span className="font-mono text-[11px] font-semibold uppercase tracking-[0.15em] text-foreground">
+                  Security
+                </span>
+                <p className="mt-1">
+                  A new key is derived in your browser; only ciphertext is sent to the server.
+                </p>
+              </li>
             </ul>
           </div>
         </form>
