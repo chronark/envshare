@@ -166,7 +166,7 @@ export function ParticleField({
   const fillColorRef = useRef(color);
   fillColorRef.current = adaptToTheme
     ? isDark
-      ? "rgba(255, 255, 255, 0.92)"
+      ? "rgba(255, 255, 255, 0.98)"
       : "rgba(10, 12, 16, 1)"
     : color;
 

@@ -59,9 +59,10 @@ export function LandingHero() {
             adaptToTheme
           />
         </div>
+        {/* Vignette into page bg — in dark mode this layer sits on top of the canvas and would wash out light particles, so skip it. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0 rounded-2xl dark:hidden"
           style={{
             background:
               "radial-gradient(65% 55% at 50% 50%, transparent 55%, hsl(var(--background) / 0.88) 100%)",
