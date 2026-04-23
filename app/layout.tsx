@@ -4,6 +4,8 @@ import Link from "next/link";
 import { Header } from "./header";
 
 import { Analytics } from "@components/analytics";
+import { AmbientGrain } from "@components/ambient-grain";
+import { ThemeProvider } from "@components/theme-provider";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export default function RootLayout({
@@ -12,46 +14,61 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <head />
-      <body className="relative min-h-screen bg-black bg-gradient-to-tr from-zinc-900/50 to-zinc-700/30">
-        {
-          // Not everyone will want to host envshare on Vercel, so it makes sense to make this opt-in.
-          process.env.ENABLE_VERCEL_ANALYTICS ? <Analytics /> : null
-        }
+    <html lang="en" className={inter.variable} suppressHydrationWarning>
+      <head>
+        <meta name="color-scheme" content="light dark" />
+      </head>
+      <body className="relative min-h-screen">
+        <div className="pointer-events-none fixed inset-0 -z-10">
+          <AmbientGrain />
+        </div>
+        <ThemeProvider>
+          {process.env.ENABLE_VERCEL_ANALYTICS ? <Analytics /> : null}
 
-        <Header />
+          <Header />
 
-        <main className=" min-h-[80vh] ">{children}</main>
+          <main className="relative z-10 min-h-[80vh]">{children}</main>
 
-        <footer className="bottom-0 border-t inset-2x-0 border-zinc-500/10">
-          <div className="flex flex-col gap-1 px-6 py-12 mx-auto text-xs text-center text-zinc-700 max-w-7xl lg:px-8">
-            <p>
-              Built by{" "}
-              <Link href="https://twitter.com/chronark_" className="font-semibold duration-150 hover:text-zinc-200">
-                @chronark_
-              </Link>
-              and{" "}
-              <Link
-                href="https://github.com/chronark/envshare/graphs/contributors"
-                className="underline duration-150 hover:text-zinc-200"
-              >
-                many others{" "}
-              </Link>
-            </p>
-            <p>
-              EnvShare is deployed on{" "}
-              <Link target="_blank" href="https://vercel.com" className="underline duration-150 hover:text-zinc-200">
-                Vercel
-              </Link>{" "}
-              and uses{" "}
-              <Link target="_blank" href="https://upstash.com" className="underline duration-150 hover:text-zinc-200">
-                Upstash
-              </Link>{" "}
-              for storing encrypted data.
-            </p>
-          </div>
-        </footer>
+          <footer className="relative z-10">
+            <div className="mx-auto flex max-w-7xl flex-col gap-1 px-6 py-12 text-center text-xs text-muted-foreground md:px-12">
+              <p>
+                Built by{" "}
+                <Link
+                  href="https://twitter.com/chronark_"
+                  className="font-semibold text-foreground underline-offset-2 transition hover:underline"
+                >
+                  @chronark_
+                </Link>
+                {" and "}
+                <Link
+                  href="https://github.com/chronark/envshare/graphs/contributors"
+                  className="underline underline-offset-2 transition hover:text-foreground"
+                >
+                  many others
+                </Link>
+              </p>
+              <p>
+                EnvShare is deployed on{" "}
+                <Link
+                  target="_blank"
+                  href="https://vercel.com"
+                  className="underline underline-offset-2 transition hover:text-foreground"
+                >
+                  Vercel
+                </Link>{" "}
+                and uses{" "}
+                <Link
+                  target="_blank"
+                  href="https://upstash.com"
+                  className="underline underline-offset-2 transition hover:text-foreground"
+                >
+                  Upstash
+                </Link>{" "}
+                for storing encrypted data.
+              </p>
+            </div>
+          </footer>
+        </ThemeProvider>
       </body>
     </html>
   );

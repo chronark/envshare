@@ -1,60 +1,65 @@
 "use client";
-import React from "react";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { GitHubStarsBadge } from "@components/github-stars-badge";
+import { ThemeToggle } from "@components/theme-toggle";
+import { headerChrome } from "@components/header-chrome";
 
 const navigation = [
-  {
-    name: "Share",
-    href: "/share",
-  },
-  {
-    name: "Unseal",
-    href: "/unseal",
-  },
+  { name: "Share", href: "/share" },
+  { name: "Unseal", href: "/unseal" },
+  { name: "Deploy", href: "/deploy" },
+] as const;
 
-  {
-    name: "Deploy",
-    href: "/deploy",
-  },
-  {
-    name: "GitHub",
-    href: "https://github.com/chronark/envshare",
-    external: true,
-  },
-] satisfies { name: string; href: string; external?: boolean }[];
-
-export const Header: React.FC = () => {
+export const Header = () => {
   const pathname = usePathname();
+
   return (
-    <header className="top-0 z-30 w-full px-4 sm:fixed backdrop-blur bh-zinc-900/50">
-      <div className="container mx-auto">
-        <div className="flex flex-col items-center justify-between gap-2 pt-6 sm:h-20 sm:flex-row sm:pt-0">
-          <Link href="/" className="text-2xl font-semibold duration-150 text-zinc-100 hover:text-white">
+    <header className="relative z-20 bg-background/80 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 sm:h-[4.25rem] sm:flex-row sm:items-center sm:justify-between sm:gap-3 md:px-12">
+        <div className="flex min-w-0 items-center justify-between gap-3 sm:justify-start sm:gap-4">
+          <Link
+            href="/"
+            className="min-w-0 font-mono text-sm font-medium tracking-[0.2em] text-foreground uppercase transition hover:text-muted-foreground"
+          >
             EnvShare
           </Link>
-          {/* Desktop navigation */}
-          <nav className="flex items-center grow">
-            <ul className="flex flex-wrap items-center justify-end gap-4 grow">
-              {navigation.map((item) => (
-                <li className="" key={item.href}>
-                  <Link
-                    className={`flex items-center px-3 py-2 duration-150 text-sm sm:text-base  hover:text-zinc-50
-                    ${pathname === item.href ? "text-zinc-200" : "text-zinc-400"}`}
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    rel={item.external ? "noopener noreferrer" : undefined}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="flex shrink-0 items-center gap-2 sm:hidden">
+            <ThemeToggle />
+          </div>
+        </div>
+
+        <nav className="flex min-w-0 flex-1 flex-wrap items-center justify-center gap-2 sm:justify-center">
+          {navigation.map((item) => {
+            const active = pathname === item.href;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={active ? headerChrome.navGhostActive : headerChrome.navGhost}
+              >
+                {item.name}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="hidden shrink-0 items-center justify-end gap-2 sm:flex">
+          <GitHubStarsBadge />
+          <ThemeToggle />
+          <Link href="/deploy" className={headerChrome.primary}>
+            Get access
+          </Link>
+        </div>
+
+        <div className="flex shrink-0 flex-wrap items-center justify-center gap-2 sm:hidden">
+          <GitHubStarsBadge />
+          <Link href="/deploy" className={headerChrome.primary}>
+            Get access
+          </Link>
         </div>
       </div>
-
-      {/* Fancy fading bottom border */}
     </header>
   );
 };
