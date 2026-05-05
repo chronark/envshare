@@ -88,7 +88,7 @@ export default function Unseal() {
               </div>
               <div>
                 <pre className="flex overflow-x-auto">
-                  <code className="px-4 text-left">{text}</code>
+                  <code className="px-4 text-left whitespace-pre-wrap break">{text}</code>
                 </pre>
               </div>
             </div>
