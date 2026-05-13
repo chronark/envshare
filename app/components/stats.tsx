@@ -8,7 +8,7 @@ export const Stats = asyncComponent(async () => {
     .pipeline()
     .get("envshare:metrics:reads")
     .get("envshare:metrics:writes")
-    .exec<[number, number]>();
+    .exec<[number | null, number | null]>();
   const stars = await fetch("https://api.github.com/repos/chronark/envshare")
     .then((res) => res.json())
     .then((json) => json.stargazers_count as number);
@@ -16,11 +16,11 @@ export const Stats = asyncComponent(async () => {
   const stats = [
     {
       label: "Documents Encrypted",
-      value: writes,
+      value: writes ?? 0,
     },
     {
       label: "Documents Decrypted",
-      value: reads,
+      value: reads ?? 0,
     },
   ] satisfies { label: string; value: number }[];
 
@@ -32,17 +32,14 @@ export const Stats = asyncComponent(async () => {
   }
 
   return (
-    <section className="container mx-auto">
-      <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 ">
+    <section className="w-full">
+      <ul className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:gap-12">
         {stats.map(({ label, value }) => (
-          <li
-            key={label}
-            className="flex items-center justify-between gap-2 px-4 py-3 overflow-hidden rounded m sm:flex-col"
-          >
-            <dd className="text-2xl font-bold tracking-tight text-center sm:text-5xl text-zinc-200">
+          <li key={label} className="flex flex-col items-center justify-center gap-2 px-6 py-8 sm:py-6">
+            <dd className="text-4xl font-bold tabular-nums tracking-tight text-foreground sm:text-5xl">
               {Intl.NumberFormat("en-US", { notation: "compact" }).format(value)}
             </dd>
-            <dt className="leading-6 text-center text-zinc-500">{label}</dt>
+            <dt className="text-center text-sm text-muted-foreground">{label}</dt>
           </li>
         ))}
       </ul>
@@ -50,8 +47,6 @@ export const Stats = asyncComponent(async () => {
   );
 });
 
-// stupid hack to make "server components" actually work with components
-// https://www.youtube.com/watch?v=h_9Vx6kio2s
 function asyncComponent<T, R>(fn: (arg: T) => Promise<R>): (arg: T) => R {
   return fn as (arg: T) => R;
 }

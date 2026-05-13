@@ -3,11 +3,20 @@ import React, { Fragment, useState, useEffect } from "react";
 import { ClipboardDocumentCheckIcon, ClipboardDocumentIcon, Cog6ToothIcon } from "@heroicons/react/24/outline";
 
 import { Title } from "@components/title";
+import { FormFieldLabel, FormFieldShell } from "@components/form-field";
 
 import { decodeCompositeKey } from "pkg/encoding";
 import { decrypt } from "pkg/encryption";
 import Link from "next/link";
 import { ErrorMessage } from "@components/error";
+
+const pageShell = "mx-auto max-w-3xl px-6 pb-20 pt-12 md:px-12 md:pt-16 lg:pt-20";
+
+const actionGhost =
+  "inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-border bg-background px-4 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-foreground shadow-sm transition hover:bg-muted/60";
+
+const actionPrimary =
+  "inline-flex h-10 items-center justify-center gap-2 rounded-lg border border-primary bg-primary px-4 font-mono text-xs font-semibold uppercase tracking-[0.15em] text-primary-foreground shadow-sm transition hover:opacity-90";
 
 export default function Unseal() {
   const [compositeKey, setCompositeKey] = useState<string>("");
@@ -57,26 +66,29 @@ export default function Unseal() {
   };
 
   return (
-    <div className="container px-8 mx-auto mt-16 lg:mt-32 ">
+    <div className={pageShell}>
       {error ? <ErrorMessage message={error} /> : null}
       {text ? (
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           {remainingReads !== null ? (
-            <div className="text-sm text-center text-zinc-600">
+            <div className="text-center text-sm text-muted-foreground">
               {remainingReads > 0 ? (
                 <p>
-                  This document can be read <span className="text-zinc-100">{remainingReads}</span> more times.
+                  This document can be read{" "}
+                  <span className="font-mono font-semibold tabular-nums text-foreground">{remainingReads}</span> more
+                  times.
                 </p>
               ) : (
-                <p className="text-zinc-400">
-                  This was the last time this document could be read. It was deleted from storage.
-                </p>
+                <p>This was the last time this document could be read. It was deleted from storage.</p>
               )}
             </div>
           ) : null}
-          <pre className="px-4 py-3 mt-8 font-mono text-left bg-transparent border rounded border-zinc-600 focus:border-zinc-100/80 focus:ring-0 sm:text-sm text-zinc-100">
-            <div className="flex items-start px-1 text-sm">
-              <div aria-hidden="true" className="pr-4 font-mono border-r select-none border-zinc-300/5 text-zinc-700">
+          <div className="mt-8 overflow-hidden rounded-lg border border-border bg-muted/25 shadow-sm">
+            <div className="flex items-start px-1 py-3 text-sm">
+              <div
+                aria-hidden="true"
+                className="select-none border-r border-border px-3 font-mono text-xs leading-[1.65] text-muted-foreground"
+              >
                 {Array.from({
                   length: text.split("\n").length,
                 }).map((_, index) => (
@@ -86,42 +98,36 @@ export default function Unseal() {
                   </Fragment>
                 ))}
               </div>
-              <div>
-                <pre className="flex overflow-x-auto">
-                  <code className="px-4 text-left">{text}</code>
-                </pre>
-              </div>
+              <pre className="m-0 max-h-[min(70vh,28rem)] flex-1 overflow-x-auto overflow-y-auto whitespace-pre-wrap px-3 py-1 font-mono text-sm text-foreground">
+                <code>{text}</code>
+              </pre>
             </div>
-          </pre>
+          </div>
 
-          <div className="flex items-center justify-end gap-4 mt-4">
-            <Link
-              href="/share"
-              type="button"
-              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-150 border rounded text-zinc-300 border-zinc-300/40 hover:border-zinc-300 focus:outline-none hover:text-white"
-            >
+          <div className="mt-6 flex flex-wrap items-center justify-end gap-3">
+            <Link href="/share" className={actionGhost}>
               Share another
             </Link>
             <button
               type="button"
-              className="relative inline-flex items-center px-4 py-2 -ml-px space-x-2 text-sm font-medium duration-150 border rounded text-zinc-700 border-zinc-300 bg-zinc-50 hover focus:border-zinc-500 focus:outline-none hover:text-zinc-50 hover:bg-zinc-900"
+              className={actionPrimary}
               onClick={() => {
                 navigator.clipboard.writeText(text);
                 setCopied(true);
               }}
             >
               {copied ? (
-                <ClipboardDocumentCheckIcon className="w-5 h-5" aria-hidden="true" />
+                <ClipboardDocumentCheckIcon className="h-5 w-5" aria-hidden="true" />
               ) : (
-                <ClipboardDocumentIcon className="w-5 h-5" aria-hidden="true" />
-              )}{" "}
+                <ClipboardDocumentIcon className="h-5 w-5" aria-hidden="true" />
+              )}
               <span>{copied ? "Copied" : "Copy"}</span>
             </button>
           </div>
         </div>
       ) : (
         <form
-          className="max-w-3xl mx-auto "
+          className="mx-auto max-w-3xl"
           onSubmit={(e) => {
             e.preventDefault();
             onSubmit();
@@ -129,28 +135,30 @@ export default function Unseal() {
         >
           <Title>Decrypt a document</Title>
 
-          <div className="px-3 py-2 mt-8 border rounded border-zinc-600 focus-within:border-zinc-100/80 focus-within:ring-0 ">
-            <label htmlFor="id" className="block text-xs font-medium text-zinc-100">
-              ID
-            </label>
+          <FormFieldShell className="mt-8">
+            <FormFieldLabel htmlFor="compositeKey">Composite key</FormFieldLabel>
             <input
               type="text"
               name="compositeKey"
               id="compositeKey"
-              className="w-full p-0 text-base bg-transparent border-0 appearance-none text-zinc-100 placeholder-zinc-500 focus:ring-0 sm:text-sm"
+              className="w-full appearance-none border-0 bg-transparent p-0 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:ring-0"
+              placeholder="Paste key from the share link, or open a link with #…"
               value={compositeKey}
               onChange={(e) => setCompositeKey(e.target.value)}
             />
-          </div>
+          </FormFieldShell>
 
           <button
             type="submit"
             disabled={loading}
-            className={`mt-8 w-full h-12 inline-flex justify-center items-center  transition-all  rounded px-4 py-1.5 md:py-2 text-base font-semibold leading-7 text-zinc-800   bg-zinc-200 ring-1  duration-150  hover:text-black hover:drop-shadow-cta   hover:bg-white ${
+            className={`mt-8 inline-flex h-11 w-full items-center justify-center rounded-lg border border-primary bg-primary px-4 font-mono text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground transition hover:opacity-90 ${
               loading ? "animate-pulse" : ""
             }`}
           >
-            <span>{loading ? <Cog6ToothIcon className="w-5 h-5 animate-spin" /> : "Unseal"}</span>
+            <span className="inline-flex items-center gap-2">
+              {loading ? <Cog6ToothIcon className="h-5 w-5 animate-spin" /> : null}
+              {loading ? "Decrypting…" : "Unseal"}
+            </span>
           </button>
         </form>
       )}

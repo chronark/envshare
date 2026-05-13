@@ -1,15 +1,23 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
-import { Props } from "next/script";
 import React, { PropsWithChildren } from "react";
 
+function twitterAvatarUrl(handle: string) {
+  const h = handle.startsWith("@") ? handle.slice(1) : handle;
+  return `https://unavatar.io/twitter/${encodeURIComponent(h)}`;
+}
+
 const TwitterHandle: React.FC<PropsWithChildren> = ({ children }) => {
-  return <span className="text-blue-500">{children}</span>;
+  return <span className="text-blue-600 dark:text-blue-400">{children}</span>;
 };
 
 const Author: React.FC<PropsWithChildren<{ href: string }>> = ({ children, href }) => (
-  <Link target="_blank" rel="noopener noreferrer" href={href} className="duration-150 text-zinc-200 hover:text-zinc-50">
+  <Link
+    target="_blank"
+    rel="noopener noreferrer"
+    href={href}
+    className="font-medium text-foreground underline-offset-2 transition hover:underline"
+  >
     {children}
   </Link>
 );
@@ -19,7 +27,7 @@ const Title: React.FC<PropsWithChildren<{ href: string }>> = ({ children, href }
     target="_blank"
     rel="noopener noreferrer"
     href={href}
-    className="text-sm duration-150 text-zinc-500 hover:text-zinc-300"
+    className="text-sm text-muted-foreground transition hover:text-foreground"
   >
     {children}
   </Link>
@@ -32,7 +40,8 @@ export const Testimonials = () => {
     author: {
       name: React.ReactNode;
       title?: React.ReactNode;
-      image: string;
+      twitterUsername?: string;
+      avatarUrl?: string;
     };
   }[] = [
     {
@@ -55,7 +64,7 @@ export const Testimonials = () => {
       author: {
         name: <Author href="https://twitter.com/FrederikMarkor">Frederik Markor</Author>,
         title: <Title href="https://discreet.net">CEO @discreet</Title>,
-        image: "https://pbs.twimg.com/profile_images/1438061314010664962/NecuMIGR_400x400.jpg",
+        twitterUsername: "FrederikMarkor",
       },
     },
     {
@@ -77,7 +86,7 @@ export const Testimonials = () => {
       author: {
         name: <Author href="https://twitter.com/steventey">Steven Tey</Author>,
         title: <Title href="https://vercel.com">Senior Developer Advocate at Vercel</Title>,
-        image: "https://pbs.twimg.com/profile_images/1506792347840888834/dS-r50Je_400x400.jpg",
+        twitterUsername: "steventey",
       },
     },
     {
@@ -92,33 +101,66 @@ export const Testimonials = () => {
       link: "https://twitter.com/DesignSiddharth/status/1615293209164546048",
       author: {
         name: <Author href="https://twitter.com/DesignSiddharth">@DesignSiddharth</Author>,
-        image: "https://pbs.twimg.com/profile_images/1613772710009765888/MbSblJYf_400x400.jpg",
+        twitterUsername: "DesignSiddharth",
       },
     },
   ];
 
   return (
     <section className="container mx-auto">
-      <ul role="list" className="grid max-w-2xl grid-cols-1 gap-16 mx-auto sm:gap-8 lg:max-w-none lg:grid-cols-3">
-        {posts.map((post, i) => (
-          <div
+      <ul
+        role="list"
+        className="mx-auto grid max-w-2xl grid-cols-1 gap-8 lg:max-w-none lg:grid-cols-3"
+      >
+        {posts.map((post, i) => {
+          const avatarSrc =
+            post.author.avatarUrl ??
+            (post.author.twitterUsername ? twitterAvatarUrl(post.author.twitterUsername) : null);
+          return (
+          <li
             key={i}
-            className="flex flex-col justify-between duration-150 border rounded border-zinc-500/30 hover:border-zinc-300/30 hover:bg-zinc-900/30 group"
+            className="group flex flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground transition hover:border-black/15 dark:hover:border-white/20"
           >
-            <Link href={post.link} className="whitespace-pre-line text text-zinc-500 p-6">
-              {post.content}
-            </Link>
-            <div className="relative flex items-start justify-between p-6 duration-150 border-t bg-zinc-900/40 border-zinc-500/30 group-hover:border-zinc-300/30">
-              <div>
-                <div className="text-base font-display text-zinc-200">{post.author.name}</div>
-                <div className="mt-1 text-sm text-zinc-500">{post.author.title}</div>
+            <Link href={post.link} className="relative flex flex-1 flex-col p-6">
+              <span
+                className="mb-4 block font-serif text-5xl leading-none text-muted-foreground opacity-40"
+                aria-hidden
+              >
+                “
+              </span>
+              <div className="whitespace-pre-line text-sm leading-relaxed text-muted-foreground">
+                {post.content}
               </div>
-              <div className="overflow-hidden rounded-full bg-zinc-50">
-                <Image className="object-cover h-14 w-14" src={post.author.image} alt="" width={56} height={56} />
+            </Link>
+            <div className="flex items-center gap-3 border-t border-border bg-muted p-5">
+              <div className="h-11 w-11 shrink-0 overflow-hidden rounded-full border border-border bg-background">
+                {avatarSrc ? (
+                  <img
+                    className="h-full w-full object-cover"
+                    src={avatarSrc}
+                    alt=""
+                    width={44}
+                    height={44}
+                    loading="lazy"
+                    decoding="async"
+                    referrerPolicy="no-referrer"
+                  />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center bg-muted text-xs font-medium text-muted-foreground">
+                    ?
+                  </div>
+                )}
+              </div>
+              <div className="min-w-0 text-foreground">
+                <div className="text-sm">{post.author.name}</div>
+                {post.author.title ? (
+                  <div className="mt-0.5 text-xs text-muted-foreground">{post.author.title}</div>
+                ) : null}
               </div>
             </div>
-          </div>
-        ))}
+          </li>
+          );
+        })}
       </ul>
     </section>
   );
